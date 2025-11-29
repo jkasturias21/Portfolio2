@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 180 100% 95%;
+
+    --card: 220 25% 8%;
+    --card-foreground: 180 100% 95%;
+
+    --popover: 220 25% 8%;
+    --popover-foreground: 180 100% 95%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 220 20% 4%;
+
+    --secondary: 280 100% 60%;
+    --secondary-foreground: 180 100% 95%;
+
+    --muted: 220 20% 15%;
+    --muted-foreground: 180 20% 60%;
+
+    --accent: 140 100% 50%;
+    --accent-foreground: 220 20% 4%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 180 50% 20%;
+    --input: 220 25% 12%;
+    --ring: 180 100% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom Design Tokens */
+    --neon-cyan: 180 100% 50%;
+    --neon-purple: 280 100% 60%;
+    --neon-green: 140 100% 50%;
+    --neon-pink: 320 100% 60%;
+    
+    --glow-cyan: 0 0 20px hsl(180 100% 50% / 0.5), 0 0 40px hsl(180 100% 50% / 0.3);
+    --glow-purple: 0 0 20px hsl(280 100% 60% / 0.5), 0 0 40px hsl(280 100% 60% / 0.3);
+    --glow-green: 0 0 20px hsl(140 100% 50% / 0.5), 0 0 40px hsl(140 100% 50% / 0.3);
+
+    --grid-color: hsl(180 100% 50% / 0.05);
+    --scanline-color: hsl(180 100% 50% / 0.03);
+
+    --sidebar-background: 220 20% 4%;
+    --sidebar-foreground: 180 100% 95%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 220 20% 4%;
+    --sidebar-accent: 220 25% 12%;
+    --sidebar-accent-foreground: 180 100% 95%;
+    --sidebar-border: 180 50% 20%;
+    --sidebar-ring: 180 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    background-image: 
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  .glow-text {
+    text-shadow: var(--glow-cyan);
+  }
+
+  .glow-text-purple {
+    text-shadow: var(--glow-purple);
+  }
+
+  .glow-text-green {
+    text-shadow: var(--glow-green);
+  }
+
+  .glow-box {
+    box-shadow: var(--glow-cyan);
+  }
+
+  .glow-box-purple {
+    box-shadow: var(--glow-purple);
+  }
+
+  .scanline {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scanline::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      var(--scanline-color) 2px,
+      var(--scanline-color) 4px
+    );
+    pointer-events: none;
+  }
+
+  .terminal-border {
+    border: 1px solid hsl(var(--primary) / 0.3);
+    position: relative;
+  }
+
+  .terminal-border::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+  }
+
+  .cyber-card {
+    @apply relative bg-card/80 backdrop-blur-sm border border-primary/20 rounded-lg overflow-hidden;
+    transition: all 0.3s ease;
+  }
+
+  .cyber-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .cyber-card:hover {
+    @apply border-primary/50;
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.2);
+  }
+
+  .cyber-card:hover::before {
+    opacity: 1;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  }
+
+  .typing-cursor::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.6), 0 0 60px hsl(var(--primary) / 0.3);
+    }
+  }
+
+  .animate-glitch {
+    animation: glitch 3s infinite;
+  }
+
+  @keyframes glitch {
+    0%, 90%, 100% { transform: translate(0); }
+    92% { transform: translate(-2px, 2px); }
+    94% { transform: translate(2px, -2px); }
+    96% { transform: translate(-2px, -2px); }
+    98% { transform: translate(2px, 2px); }
+  }
+
+  .animate-scan {
+    animation: scan 8s linear infinite;
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+}
